@@ -1,5 +1,8 @@
+// ignore_for_file: unused_field
+
 import 'package:flutter/material.dart';
-import 'home_page.dart'; // Import the HomePage for navigation
+import 'template_page.dart';
+import 'home_page.dart';
 
 class ExpensePage extends StatefulWidget {
   @override
@@ -267,13 +270,18 @@ class _ExpensePageState extends State<ExpensePage> {
                         ),
                       ),
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                           Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const TemplatePage()),
+                          );
+                        },
                         style: ElevatedButton.styleFrom(
-                          elevation: 0, // Remove elevation
+                          elevation: 0,
                           padding: const EdgeInsets.symmetric(vertical: 16),
-                          backgroundColor: Colors.transparent, // Set background color to transparent
+                          backgroundColor: Colors.transparent, 
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(4), // Rectangular shape
+                            borderRadius: BorderRadius.circular(4), 
                           ),
                         ),
                         child: const Text('Insert Template', style: TextStyle(color: Colors.white)),
