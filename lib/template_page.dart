@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'home_page.dart';
 
@@ -13,9 +15,17 @@ class _TemplatePageState extends State<TemplatePage> {
   String selectedPaymentMethod = 'Physical Cash';
   String selectedCurrency = 'INR (₹)';
 
-  final List<String> categories = ['Groceries', 'Rent', 'Utilities', 'Transport'];
+  final List<Map<String, dynamic>> categories = [
+    {'name': 'Groceries', 'icon': Icons.shopping_cart, 'color': const Color.fromRGBO(97, 216, 216, 1)},
+    {'name': 'Apparels', 'icon': Icons.checkroom, 'color': Colors.purple},
+    {'name': 'Electronics', 'icon': Icons.devices, 'color': Colors.orange},
+    {'name': 'Investments', 'icon': Icons.home, 'color': Colors.yellow},
+    {'name': 'Life', 'icon': Icons.person, 'color': Colors.green},
+    {'name': 'Transportation', 'icon': Icons.directions_bus, 'color': Colors.red},
+  ];
+
   final List<String> paymentMethods = ['Physical Cash', 'Credit Card', 'Debit Card', 'UPI'];
-    final List<String> currency = ['INR (₹)', 'EUR (€)', 'GBP (£)', 'AZN (₼)'];
+  final List<String> currency = ['INR (₹)', 'EUR (€)', 'GBP (£)', 'AZN (₼)'];
 
   @override
   Widget build(BuildContext context) {
@@ -40,9 +50,9 @@ class _TemplatePageState extends State<TemplatePage> {
               child: Container (
                 decoration: const BoxDecoration(
                 gradient: RadialGradient(
-                  radius: 1.6,
+                  radius: 1.4,
                   colors: [
-                    Color.fromRGBO(232, 64, 64, 0.4),
+                    Color.fromRGBO(232, 64, 64, 0.3),
                     Color.fromRGBO(20, 19, 38, 0.0),
                   ],
                   stops: [0.0, 1.0],
@@ -55,7 +65,7 @@ class _TemplatePageState extends State<TemplatePage> {
         ),
         // Main content
         Scaffold(
-          backgroundColor: Colors.transparent, // Set to transparent to see the gradient
+          backgroundColor: Colors.transparent,
           appBar: AppBar(
             backgroundColor: Colors.transparent,
             elevation: 0,
@@ -63,7 +73,7 @@ class _TemplatePageState extends State<TemplatePage> {
               icon: const Icon(Icons.close),
               color: Colors.white,
               onPressed: () {
-                // Navigate back to home page when the close icon is pressed
+
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const HomePage()),
@@ -79,58 +89,8 @@ class _TemplatePageState extends State<TemplatePage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Expanded(
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Color.fromRGBO(227, 60, 60, 1),
-                              Color.fromRGBO(227, 130, 60, 1),
-                            ],
-                          ),
-                        ),
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            elevation: 0,
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            backgroundColor: Colors.transparent,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(30),
-                              ),
-                            ),
-                          ),
-                          child: const Text('INCOME', style: TextStyle(color: Colors.white)),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Color.fromRGBO(227, 160, 60, 1),
-                              Color.fromRGBO(227, 130, 60, 1),
-                            ],
-                          ),
-                        ),
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            elevation: 0,
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            backgroundColor: Colors.transparent,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(30),
-                              ),
-                            ),
-                          ),
-                          child: const Text('EXPENSE', style: TextStyle(color: Colors.white)),
-                        ),
-                      ),
-                    ),
+                    buildIncomeExpenseButton('INCOME', Colors.red),
+                    buildIncomeExpenseButton('EXPENSE', Colors.orange),
                   ],
                 ),
                 const SizedBox(height: 20),
@@ -138,15 +98,11 @@ class _TemplatePageState extends State<TemplatePage> {
                   child: ListView(
                     children: [
                       buildCard('Transaction', '2:05 p.m | Sep 01, 2022'),
-                      buildDropdownCard('Category', selectedCategory, categories, (String? newValue) {
-                        setState(() {
-                          selectedCategory = newValue!;
-                        });
-                      }),
+                      buildCustomCategoryDropdown('Category', selectedCategory, categories),
                       buildCard('Amount', '₹235'),
                       buildDropdownCard('Currency', selectedCurrency, currency, (String? newValue) {
                         setState(() {
-                          selectedPaymentMethod = newValue!;
+                          selectedCurrency = newValue!;
                         });
                       }),
                       buildDropdownCard('Payment Method', selectedPaymentMethod, paymentMethods, (String? newValue) {
@@ -166,59 +122,14 @@ class _TemplatePageState extends State<TemplatePage> {
     );
   }
 
-  // Widget to build card with title and text
-  Widget buildCard(String title, String content) {
+  // Build custom category dropdown using a ModalBottomSheet
+  Widget buildCustomCategoryDropdown(String title, String selectedValue, List<Map<String, dynamic>> categories) {
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
         side: const BorderSide(
           color: Color.fromRGBO(255, 255, 255, 0.2),
-          width: 1, // 1px border
-        ),
-      ),
-      margin: const EdgeInsets.symmetric(vertical: 10),
-      color: const Color.fromRGBO(255, 255, 255, 0.1), // rgba(255, 255, 255, 0.3)
-      child: Padding(
-        padding: const EdgeInsets.all(25.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title.toUpperCase(),
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 14,
-                // fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              content,
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 15,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Container(
-              height: 2,
-              color: const Color.fromRGBO(227, 181, 60, 1), // Underline color
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // Widget to build card with dropdown
-  Widget buildDropdownCard(String title, String selectedValue, List<String> options, ValueChanged<String?> onChanged) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-        side: const BorderSide(
-          color: Color.fromRGBO(255, 255, 255, 0.2), // Border rgba(255, 255, 255, 0.5)
-          width: 1, // 1px border
+          width: 1,
         ),
       ),
       margin: const EdgeInsets.symmetric(vertical: 10),
@@ -233,36 +144,230 @@ class _TemplatePageState extends State<TemplatePage> {
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 14,
-                // fontWeight: FontWeight.bold,
+              ),
+              
+            ),
+            const SizedBox(height: 8),
+            GestureDetector(
+              onTap: () {
+                showModalBottomSheet(
+                  context: context,
+                  backgroundColor: const Color.fromRGBO(20, 19, 38, 1),
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
+                  ),
+                  builder: (BuildContext context) {
+                    return ListView(
+                      padding: const EdgeInsets.all(20.0),
+                      children: categories.map((category) {
+                        return ListTile(
+                          leading: CircleAvatar(
+                            backgroundColor: category['color'],
+                            child: Icon(
+                              category['icon'],
+                              color: Colors.black,
+                            ),
+                          ),
+                          title: Text(
+                            category['name'],
+                            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                          ),
+                          onTap: () {
+                            setState(() {
+                              selectedCategory = category['name'];
+                            });
+                            Navigator.pop(context);
+                          },
+                        );
+                      }).toList(),
+                    );
+                  },
+                );
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    selectedValue,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const Icon(
+                    Icons.arrow_drop_down,
+                    color: Colors.white,
+                    size: 30,
+                  ),
+                ],
               ),
             ),
             const SizedBox(height: 8),
-            DropdownButton<String>(
-              value: selectedValue,
-              dropdownColor: const Color.fromRGBO(30, 30, 50, 1),
-              iconEnabledColor: Colors.white,
-              isExpanded: true, // Make dropdown expand to card width
-              alignment: Alignment.centerRight, // Move icon to the right
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-              ),
-              underline: Container(
-                height: 2,
-                color: const Color.fromRGBO(227, 181, 60, 1),
-              ),
-              onChanged: onChanged,
-              items: options.map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
+            Container(
+              height: 2,
+              color: const Color.fromRGBO(227, 181, 60, 1),
             ),
           ],
         ),
       ),
     );
   }
+
+  Widget buildIncomeExpenseButton(String text, Color color) {
+    return Expanded(
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [color.withOpacity(0.8), Colors.orange],
+          ),
+        ),
+        child: ElevatedButton(
+          onPressed: () {},
+          style: ElevatedButton.styleFrom(
+            elevation: 0,
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            backgroundColor: Colors.transparent,
+            shape: RoundedRectangleBorder(
+              borderRadius: text == 'INCOME'
+                  ? const BorderRadius.only(topRight: Radius.circular(30))
+                  : const BorderRadius.only(topLeft: Radius.circular(30)),
+            ),
+          ),
+          child: Text(text, style: const TextStyle(color: Colors.white)),
+        ),
+      ),
+
+    );
+  }
+
+
+  Widget buildCard(String title, String content) {
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+        side: const BorderSide(
+          color: Color.fromRGBO(255, 255, 255, 0.2),
+          width: 1,
+        ),
+      ),
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      color: const Color.fromRGBO(255, 255, 255, 0.1),
+      child: Padding(
+        padding: const EdgeInsets.all(25.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title.toUpperCase(),
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 14,
+
+              ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              content,
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 15,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Container(
+              height: 2,
+              color: const Color.fromRGBO(227, 181, 60, 1),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+
+Widget buildDropdownCard(String title, String selectedValue, List<String> options, ValueChanged<String?> onChanged) {
+  return Card(
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(20),
+      side: const BorderSide(
+        color: Color.fromRGBO(255, 255, 255, 0.2),
+        width: 1,
+      ),
+    ),
+    margin: const EdgeInsets.symmetric(vertical: 10),
+    color: const Color.fromRGBO(255, 255, 255, 0.1),
+    child: Padding(
+      padding: const EdgeInsets.all(25.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title.toUpperCase(),
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 14,
+            ),
+          ),
+          const SizedBox(height: 8),
+          GestureDetector(
+            onTap: () {
+              showModalBottomSheet(
+                context: context,
+                backgroundColor: const Color.fromRGBO(20, 19, 38, 1),
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
+                ),
+                builder: (BuildContext context) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0), // Padding for left and right
+                    child: ListView(
+                      padding: const EdgeInsets.all(16.0),
+                      children: options.map((option) {
+                        return ListTile(
+                          title: Text(
+                            option,
+                            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                          ),
+                          onTap: () {
+                            onChanged(option);
+                            Navigator.pop(context);
+                          },
+                        );
+                      }).toList(),
+                    ),
+                  );
+                },
+              );
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  selectedValue,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const Icon(
+                  Icons.arrow_drop_down,
+                  color: Colors.white,
+                  size: 30, // Increase the size of the dropdown arrow
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 8),
+          Container(
+            height: 2,
+            color: const Color.fromRGBO(227, 181, 60, 1),
+          ),
+        ],
+      ),
+    ),
+  );
+}
 }

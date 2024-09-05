@@ -1,15 +1,26 @@
-// ignore_for_file: unused_field
+// ignore_for_file: unused_field, library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
 import 'template_page.dart';
 import 'home_page.dart';
 
 class ExpensePage extends StatefulWidget {
+  const ExpensePage({super.key});
+
   @override
   _ExpensePageState createState() => _ExpensePageState();
 }
 
 class _ExpensePageState extends State<ExpensePage> {
+  final List<Map<String, dynamic>> _categories = [
+    {'name': 'Groceries', 'icon': Icons.shopping_cart, 'color': const Color.fromRGBO(97, 216, 216, 1)},
+    {'name': 'Apparels', 'icon': Icons.checkroom, 'color': Colors.purple},
+    {'name': 'Electronics', 'icon': Icons.devices, 'color': Colors.orange},
+    {'name': 'Investments', 'icon': Icons.home, 'color': Colors.yellow},
+    {'name': 'Life', 'icon': Icons.person, 'color': Colors.green},
+    {'name': 'Transportation', 'icon': Icons.directions_bus, 'color': Colors.red},
+  ];
+
   String _selectedCategory = 'Category';
   String _paymentMethod = 'Payment Method';
   String _amount = '0';
@@ -117,14 +128,15 @@ class _ExpensePageState extends State<ExpensePage> {
             child: Stack(
               children: [
                 // Positioned Dropdown Button
+                // Category Button with showModalBottomSheet
                 Positioned(
                   bottom: 690, // Adjust as needed
-                  left: MediaQuery.of(context).size.width * 0.35, // Centered horizontally
+                  left: MediaQuery.of(context).size.width * 0.30, // Centered horizontally
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20), // Adjust border radius for clipping
                     child: Container(
-                      width: 120, // Set a specific width
-                      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5), // Adjust padding
+                      width: 160, // Set a specific width
+                      padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 5), // Adjust padding
                       decoration: const BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
@@ -135,31 +147,81 @@ class _ExpensePageState extends State<ExpensePage> {
                           end: Alignment.bottomRight,
                         ),
                       ),
-                      child: DropdownButton<String>(
-                        value: _selectedCategory,
-                        dropdownColor: Colors.transparent,
-                        icon: const Icon(Icons.keyboard_arrow_down, color: Colors.white),
-                        underline: Container(),
-                        isExpanded: true, // Ensures the text is not cut off inside the dropdown
-                        items: <String>['Category', 'Food', 'Travel', 'Shopping', 'Rent']
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(
-                              value,
-                              style: const TextStyle(color: Colors.white, fontSize: 14), // Adjust font size
+                      child: ElevatedButton(
+                        onPressed: () {
+                          showModalBottomSheet(
+                            context: context,
+                            backgroundColor: const Color.fromRGBO(20, 19, 38, 1),
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
                             ),
+                            builder: (BuildContext context) {
+                              return Container(
+                                height: MediaQuery.of(context).size.height * 0.7, // Adjust the height as needed
+                                padding: const EdgeInsets.all(16.0),
+                                decoration: BoxDecoration(
+                                  color: Colors.transparent,
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: _categories.map((category) {
+                                    return Padding(
+                                      padding: const EdgeInsets.only(bottom: 20.0), // Add spacing between ListTiles
+                                      child: ListTile(
+                                        leading: CircleAvatar(
+                                          radius: 25, // Increase the radius for a larger icon
+                                          backgroundColor: category['color'],
+                                          child: Icon(
+                                            category['icon'],
+                                            size: 30, // Increase the size of the icon
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        title: Text(
+                                          category['name'],
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18, // Increase the font size for the text
+                                          ),
+                                        ),
+                                        onTap: () {
+                                          setState(() {
+                                            _selectedCategory = category['name'];
+                                          });
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              );
+                            },
                           );
-                        }).toList(),
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            _selectedCategory = newValue!;
-                          });
+
                         },
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5), // Adjust padding
+                          backgroundColor: Colors.transparent,
+                          elevation: 0,
+                        ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                _selectedCategory,
+                                style: const TextStyle(color: Colors.white, fontSize: 14), // Adjust font size
+                              ),
+                            ),
+                            const Icon(Icons.keyboard_arrow_down, color: Colors.white),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
+
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -234,7 +296,7 @@ class _ExpensePageState extends State<ExpensePage> {
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 40,
-                            fontWeight: FontWeight.bold, // Make amount bold
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ],

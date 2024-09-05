@@ -72,6 +72,11 @@ flutter:
     - assets/icons/profile.png
     - assets/icons/side_nav.png
     - assets/icons/logout.png
+    - assets/icons/cart.png
+    - assets/icons/investment.png
+    - assets/icons/people.png
+    - assets/icons/tshirt.png
+    - assets/icons/tv.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

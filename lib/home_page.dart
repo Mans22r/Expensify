@@ -1,4 +1,4 @@
-// ignore_for_file: unused_field
+// ignore_for_file: unused_field, library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -242,7 +242,7 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 transactionCard(
                                   iconPath: 'assets/logos/amazon_logo.png',
-                                  title: 'AMAZON',
+                                  title: 'Amazon',
                                   subtitle: 'Aug 31, 2022',
                                   amount: '-₹984',
                                   borderColor: const Color(0xFFFF6600),
@@ -259,6 +259,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             bottomNavigationBar: BottomNavigationBar(
+              // backgroundColor: const Color.fromRGBO(20, 19, 38, 1),
               items: const <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
                   icon: Padding(
@@ -292,7 +293,7 @@ class _HomePageState extends State<HomePage> {
               currentIndex: _selectedIndex,
               selectedItemColor: const Color.fromRGBO(227, 181, 60, 1),
               unselectedItemColor: Colors.black,
-              backgroundColor: const Color.fromRGBO(20, 19, 38, 1),
+              backgroundColor: Colors.transparent,
               elevation: 0,
               onTap: _onItemTapped,
             ),
@@ -326,7 +327,7 @@ class _HomePageState extends State<HomePage> {
                   onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => ExpensePage()),
+                    MaterialPageRoute(builder: (context) => const ExpensePage()),
                   );
                 },
                 backgroundColor: Colors.transparent,
