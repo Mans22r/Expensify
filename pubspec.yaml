@@ -71,6 +71,7 @@ flutter:
     - assets/icons/insight.png
     - assets/icons/profile.png
     - assets/icons/side_nav.png
+    - assets/icons/logout.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

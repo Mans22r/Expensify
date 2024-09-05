@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'expense_page.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -321,8 +323,11 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
               child: FloatingActionButton(
-                onPressed: () {
-                  // Handle button press
+                  onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ExpensePage()),
+                  );
                 },
                 backgroundColor: Colors.transparent,
                 elevation: 0,
