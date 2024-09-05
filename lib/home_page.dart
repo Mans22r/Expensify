@@ -3,7 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'bottom_navbar.dart';
 import 'expense_page.dart';
+import 'wallet_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -22,11 +24,36 @@ class _HomePageState extends State<HomePage> {
     Text('Profile Page'),
   ];
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+void _onItemTapped(int index) {
+  setState(() {
+    _selectedIndex = index;
+  });
+
+  if (index == 0) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const HomePage()),
+    );
   }
+  if (index == 1) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const WalletPage()),
+    );
+  }
+  // if (index == 2) {
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(builder: (context) => const InsightPage()),
+  //   );
+  // }
+  // if (index == 3) {
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(builder: (context) => const ProfilePage()),
+  //   );
+  // }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -258,45 +285,11 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-            bottomNavigationBar: BottomNavigationBar(
-              // backgroundColor: const Color.fromRGBO(20, 19, 38, 1),
-              items: const <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                  icon: Padding(
-                    padding: EdgeInsets.only(top: 8.0),
-                    child: ImageIcon(AssetImage('assets/icons/home.png')),
-                  ), 
-                  label: 'Home',
-                ),
-                BottomNavigationBarItem(
-                  icon:Padding(
-                    padding: EdgeInsets.only(top: 8.0),
-                    child: ImageIcon(AssetImage('assets/icons/wallet.png')),
-                  ), 
-                  label: 'Wallet',
-                ),
-                BottomNavigationBarItem(
-                  icon: Padding(
-                    padding: EdgeInsets.only(top: 8.0),
-                    child: ImageIcon(AssetImage('assets/icons/insight.png')),
-                  ), 
-                  label: 'Insight',
-                ),
-                BottomNavigationBarItem(
-                  icon: Padding(
-                    padding: EdgeInsets.only(top: 8.0),
-                    child: ImageIcon(AssetImage('assets/icons/profile.png')),
-                  ), 
-                  label: 'Profile',
-                ),
-              ],
-              currentIndex: _selectedIndex,
-              selectedItemColor: const Color.fromRGBO(227, 181, 60, 1),
-              unselectedItemColor: Colors.black,
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              onTap: _onItemTapped,
-            ),
+            bottomNavigationBar: BottomNavBar(
+            currentIndex: _selectedIndex,
+            
+            onTap: _onItemTapped,
+      ),
           ),
           Positioned(
             right: 6,
