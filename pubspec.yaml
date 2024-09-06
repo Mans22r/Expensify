@@ -77,10 +77,16 @@ flutter:
     - assets/icons/people.png
     - assets/icons/tshirt.png
     - assets/icons/tv.png
+    - assets/icons/cash.png
+    - assets/icons/credit-card.png
+    - assets/icons/debit-card.png
+    - assets/icons/qr.png
+    - assets/icons/bank.png
 
     - assets/images/chip.png
     - assets/images/wifi.png
     - assets/images/mastercard.png
+    - assets/images/user.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

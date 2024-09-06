@@ -2,7 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:lascade_app/home_page.dart';
+import 'Insight_page.dart';
 import 'bottom_navbar.dart';
+import 'profile_page.dart';
 
 class WalletPage extends StatefulWidget {
   const WalletPage({super.key});
@@ -30,18 +32,18 @@ class _WalletPageState extends State<WalletPage> {
         MaterialPageRoute(builder: (context) => const WalletPage()),
       );
     }
-    // if (index == 2) {
-    //   Navigator.push(
-    //     context,
-    //     MaterialPageRoute(builder: (context) => const InsightPage()),
-    //   );
-    // }
-    // if (index == 3) {
-    //   Navigator.push(
-    //     context,
-    //     MaterialPageRoute(builder: (context) => const ProfilePage()),
-    //   );
-    // }
+    if (index == 2) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const InsightPage()),
+      );
+    }
+    if (index == 3) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const ProfilePage()),
+      );
+    }
   }
 
   @override
