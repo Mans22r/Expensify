@@ -26,89 +26,200 @@ class _HomePageState extends State<HomePage> {
     Text('Profile Page'),
   ];
 
-void _onItemTapped(int index) {
-  setState(() {
-    _selectedIndex = index;
-  });
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
 
-  if (index == 0) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const HomePage()),
-    );
+    if (index == 0) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const HomePage()),
+      );
+    }
+    if (index == 1) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const WalletPage()),
+      );
+    }
+    if (index == 2) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const InsightPage()),
+      );
+    }
+    if (index == 3) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const ProfilePage()),
+      );
+    }
   }
-  if (index == 1) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const WalletPage()),
-    );
-  }
-  if (index == 2) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const InsightPage()),
-    );
-  }
-  if (index == 3) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const ProfilePage()),
-    );
-  }
-}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                color: Color.fromRGBO(20, 19, 38, 1),
-              ),
-              child: Text(
-                'Menu',
-                style: TextStyle(color: Colors.white, fontSize: 24),
-              ),
+        child: Container(
+          color: const Color.fromRGBO(20, 19, 38, 1),
+          child: Padding(
+            padding: const EdgeInsets.only(top: 50.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: const BoxDecoration(
+                    color: Color.fromRGBO(20, 19, 38, 1),
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Stack(
+                        alignment: Alignment.bottomRight,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(4),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: const Color(0xFFE3B53C),
+                                width: 1,
+                              ),
+                            ),
+                            child: const CircleAvatar(
+                              radius: 20,
+                              backgroundImage:
+                                  AssetImage('assets/images/user.png'),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Chandrama Saha',
+                              style: GoogleFonts.dmSans(
+                                textStyle: const TextStyle(
+                                  color: Color(0xFFE3B53C),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                            ),
+                            Text(
+                              'Expensify',
+                              style: GoogleFonts.dmSans(
+                                textStyle: const TextStyle(
+                                  color: Colors.white70,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      IconButton(
+                        icon: const Icon(
+                          Icons.edit,
+                          size: 20,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          // Handle edit button press
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: ListView(
+                    padding: const EdgeInsets.all(0),
+                    children: [
+                      const Divider(color: Colors.grey),
+                      _drawerItem(Icons.stars, 'Get Premium'),
+                      const Divider(color: Colors.grey),
+                      _drawerItem(Icons.receipt, 'Records'),
+                      _drawerItem(Icons.sync, 'Bank Sync'),
+                      _drawerItem(Icons.import_export, 'Imports'),
+                      _drawerItem(Icons.receipt_long, 'Receipts'),
+                      _drawerItem(Icons.label, 'Tags'),
+                      _drawerItem(Icons.card_membership, 'Cards'),
+                      _drawerItem(Icons.attach_money, 'Set Budget'),
+                      _drawerItem(Icons.credit_card, 'CVV'),
+                      _drawerItem(Icons.list, 'Lists'),
+                      _drawerItem(Icons.settings, 'Settings'),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            ListTile(
-              leading: const Icon(Icons.home),
-              title: const Text('Home'),
-              onTap: () {
-                Navigator.pop(context);
-                _onItemTapped(0);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.account_balance_wallet),
-              title: const Text('Wallet'),
-              onTap: () {
-                Navigator.pop(context);
-                _onItemTapped(1);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.insights),
-              title: const Text('Insight'),
-              onTap: () {
-                Navigator.pop(context);
-                _onItemTapped(2);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.person),
-              title: const Text('Profile'),
-              onTap: () {
-                Navigator.pop(context);
-                _onItemTapped(3);
-              },
-            ),
-          ],
+          ),
         ),
       ),
       body: Stack(
+        children: [
+          Container(
+            color: const Color.fromRGBO(20, 19, 38, 1),
+          ),
+          Positioned.fill(
+            child: Container(
+              decoration: const BoxDecoration(
+                gradient: RadialGradient(
+                  radius: 1.4,
+                  colors: [
+                    Color.fromRGBO(232, 64, 64, 0.2),
+                    Color.fromRGBO(20, 19, 38, 0.0),
+                  ],
+                  stops: [0.0, 1.0],
+                  center: Alignment.topLeft,
+                ),
+              ),
+            ),
+          ),
+          Scaffold(
+            backgroundColor: Colors.transparent,
+            appBar: AppBar(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              centerTitle: true,
+              title: Text(
+                'Welcome',
+                style: GoogleFonts.syne(
+                  textStyle: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                  ),
+                ),
+              ),
+              iconTheme: const IconThemeData(color: Colors.white),
+              leading: Builder(
+                builder: (context) {
+                  return IconButton(
+                    icon: const ImageIcon(
+                      AssetImage('assets/icons/side_nav.png'),
+                      color: Colors.white,
+                    ),
+                    onPressed: () {
+                      Scaffold.of(context).openDrawer();
+                    },
+                  );
+                },
+              ),
+              
+            ),
+            body: _widgetOptions[_selectedIndex],
+            bottomNavigationBar: BottomNavBar(
+              currentIndex: _selectedIndex,
+              onTap: _onItemTapped,
+            ),
+          ),
+        Scaffold(
+        body: Stack(
         children: [
           // Background color
           Container(
@@ -291,7 +402,7 @@ void _onItemTapped(int index) {
             currentIndex: _selectedIndex,
             
             onTap: _onItemTapped,
-      ),
+           ),
           ),
           Positioned(
             right: 6,
@@ -335,9 +446,12 @@ void _onItemTapped(int index) {
               ),
             ),
           ),
-        ],
-      ),
-    );
+         ],
+        ),
+       ),
+      ],
+     ),
+    ); 
   }
 
   Widget transactionCard({
@@ -463,6 +577,21 @@ void _onItemTapped(int index) {
           ],
         ),
       ],
+    );
+  }
+  // Drawer item widget
+  Widget _drawerItem(IconData icon, String title) {
+    return ListTile(
+      leading: Icon(icon, color: const Color(0xFFE3B53C)),
+      title: Text(
+        title,
+        style: GoogleFonts.dmSans(
+          textStyle: const TextStyle(color: Color.fromARGB(255, 255, 255, 255),fontWeight: FontWeight.bold),
+        ),
+      ),
+      onTap: () {
+        Navigator.pop(context); // Close the drawer
+      },
     );
   }
 }

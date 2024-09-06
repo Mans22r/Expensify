@@ -1,8 +1,7 @@
-// ignore_for_file: library_private_types_in_public_api
-
 import 'package:flutter/material.dart';
 import 'package:lascade_app/home_page.dart';
 import 'bottom_navbar.dart';
+import 'expense_page.dart';
 import 'profile_page.dart';
 import 'wallet_page.dart';
 
@@ -171,19 +170,64 @@ class _InsightPageState extends State<InsightPage> {
                 const SizedBox(height: 20),
                 // Graphical chart view (Placeholder)
                 Expanded(
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 16.0),
-                    decoration: BoxDecoration(
-                      color: const Color.fromRGBO(38, 36, 61, 1),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    // Placeholder for the graph chart
-                    child: const Center(
-                      child: Text(
-                        "Graph Chart View",
-                        style: TextStyle(color: Colors.white),
+                  child: Stack(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 16.0),
+                        decoration: BoxDecoration(
+                          color: const Color.fromRGBO(38, 36, 61, 1),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: const Center(
+                          child: Text(
+                            "Graph Chart View",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
                       ),
-                    ),
+                      Positioned(
+                        right: 16,
+                        bottom: 16,
+                        child: Container(
+                          width: 60,
+                          height: 60,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            gradient: const LinearGradient(
+                              colors: [
+                                Color.fromRGBO(227, 130, 60, 1),
+                                Color.fromRGBO(227, 60, 60, 1),
+                              ],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.3),
+                                spreadRadius: 3,
+                                blurRadius: 10,
+                                offset: const Offset(0, 3),
+                              ),
+                            ],
+                          ),
+                          child: FloatingActionButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const ExpensePage()),
+                              );
+                            },
+                            backgroundColor: Colors.transparent,
+                            elevation: 0,
+                            child: const Icon(
+                              Icons.add,
+                              color: Color.fromARGB(255, 255, 255, 255),
+                              size: 32,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -215,79 +259,80 @@ class _InsightPageState extends State<InsightPage> {
     );
   }
 
-Widget _buildSlideChangerButton(String text, int index) {
-  return GestureDetector(
-    onTap: () {
-      setState(() {
-        _selectedToggleIndex = index;
-      });
-    },
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(
+  Widget _buildSlideChangerButton(String text, int index) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _selectedToggleIndex = index;
+        });
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            text,
+            style: TextStyle(
+              fontSize: 16,
+              color: _selectedToggleIndex == index ? const Color.fromRGBO(227, 181, 60, 1) : Colors.white,
+              fontWeight: FontWeight.normal,
+              fontFamily: 'Syne',
+            ),
+          ),
+          const SizedBox(height: 4), // Spacing between text and underline
+          Container(
+            height: 2, // Underline thickness
+            width: 200, // Underline width
+            decoration: BoxDecoration(
+              color: _selectedToggleIndex == index ? const Color.fromRGBO(227, 181, 60, 1) : Colors.transparent,
+              borderRadius: BorderRadius.circular(4), // Rounded edges for the underline
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildToggleButton(String text, int index) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _selectedIncomeExpenseIndex = index;
+        });
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 34.0, vertical: 8.0),
+        margin: const EdgeInsets.symmetric(horizontal: 4.0),
+        decoration: BoxDecoration(
+          // Apply gradient when selected, otherwise use the default color
+          gradient: _selectedIncomeExpenseIndex == index
+              ? const LinearGradient(
+                  colors: [
+                    Color.fromRGBO(227, 130, 60, 1), // Start color
+                    Color.fromRGBO(227, 60, 60, 1), // End color
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                )
+              : null,
+          color: _selectedIncomeExpenseIndex != index
+              ?  Colors.transparent
+              : null, // Default background for unselected
+          borderRadius: BorderRadius.circular(15),
+          border: _selectedIncomeExpenseIndex == index
+              ? Border.all(color: Colors.transparent) // No border for selected state
+              : Border.all(color: Colors.transparent), // Optional border for unselected
+        ),
+        child: Text(
           text,
           style: TextStyle(
-            fontSize: 16,
-            color: _selectedToggleIndex == index ? const Color.fromRGBO(227, 181, 60, 1) : Colors.white,
-            fontWeight: FontWeight.normal,
+            color: _selectedIncomeExpenseIndex == index ? Colors.white : Colors.white,
             fontFamily: 'Syne',
+            fontWeight: FontWeight.normal,
           ),
         ),
-        const SizedBox(height: 4), // Spacing between text and underline
-        Container(
-          height: 2, // Underline thickness
-          width: 200, // Underline width
-          decoration: BoxDecoration(
-            color: _selectedToggleIndex == index ? const Color.fromRGBO(227, 181, 60, 1) : Colors.transparent,
-            borderRadius: BorderRadius.circular(4), // Rounded edges for the underline
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
-Widget _buildToggleButton(String text, int index) {
-  return GestureDetector(
-    onTap: () {
-      setState(() {
-        _selectedIncomeExpenseIndex = index;
-      });
-    },
-    child: Container(
-      padding: const EdgeInsets.symmetric(horizontal: 34.0, vertical: 8.0),
-      margin: const EdgeInsets.symmetric(horizontal: 4.0),
-      decoration: BoxDecoration(
-        // Apply gradient when selected, otherwise use the default color
-        gradient: _selectedIncomeExpenseIndex == index
-            ? const LinearGradient(
-                colors: [
-                  Color.fromRGBO(227, 130, 60, 1), // Start color
-                  Color.fromRGBO(227, 60, 60, 1), // End color
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              )
-            : null,
-        color: _selectedIncomeExpenseIndex != index
-            ?  Colors.transparent
-            : null, // Default background for unselected
-        borderRadius: BorderRadius.circular(15),
-        border: _selectedIncomeExpenseIndex == index
-            ? Border.all(color: Colors.transparent) // No border for selected state
-            : Border.all(color: Colors.transparent), // Optional border for unselected
       ),
-      child: Text(
-        text,
-        style: TextStyle(
-          color: _selectedIncomeExpenseIndex == index ? Colors.white : Colors.white,
-          fontFamily: 'Syne',
-          fontWeight: FontWeight.normal,
-        ),
-      ),
-    ),
-  );
-}
+    );
+  }
 
 }
+
