@@ -3,8 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'Insight_page.dart';
 import 'bottom_navbar.dart';
 import 'expense_page.dart';
+import 'profile_page.dart';
 import 'wallet_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -41,18 +43,18 @@ void _onItemTapped(int index) {
       MaterialPageRoute(builder: (context) => const WalletPage()),
     );
   }
-  // if (index == 2) {
-  //   Navigator.push(
-  //     context,
-  //     MaterialPageRoute(builder: (context) => const InsightPage()),
-  //   );
-  // }
-  // if (index == 3) {
-  //   Navigator.push(
-  //     context,
-  //     MaterialPageRoute(builder: (context) => const ProfilePage()),
-  //   );
-  // }
+  if (index == 2) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const InsightPage()),
+    );
+  }
+  if (index == 3) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const ProfilePage()),
+    );
+  }
 }
 
   @override
